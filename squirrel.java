@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Level1{
-        public static int factnuts(int n) {
+        public static int T (int n) {
         int result = 1;
 		for (int i = 1; i <= n; i ++){
 			result = result*i;
