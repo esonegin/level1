@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Level1{
         public static int factnuts(int n) {
         int result = 1;
