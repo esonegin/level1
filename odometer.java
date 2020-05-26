@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Level1 {
-        public static int odometer(int[] oksana) {
+        public static int odometer(int [] oksana) {
             int result = 0;
             int i = 0;
             while (i < oksana.length - 1) {
