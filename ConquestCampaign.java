@@ -4,13 +4,14 @@ public class Level1 {
         public static int ConquestCampaign(int N, int M, int L, int [] battalion) {
             int result = 0;
             int control = 0;
+            int[] battalionf = CellDublFilter(battalion);
             for (int day = 1; control < N * M; day++) {
                 if (day == 1) {
                     control = L;
                 } else {
-                    control = control + FourCell(N, M, battalion) * 4
-                            + ThreeCell(N, M, battalion) * 3
-                            + TwoCell(N, M, battalion) * 2;
+                    control = control + FourCell(N, M, battalionf) * 4
+                            + ThreeCell(N, M, battalionf) * 3
+                            + TwoCell(N, M, battalionf) * 2;
                 }
                 result = day;
             }
@@ -25,10 +26,21 @@ public class Level1 {
                     continue;
                 } else if (i < battalion.length - 1) {
                     list.add(battalion[i]);
-                    list.add(battalion[i+1]);
+                    list.add(battalion[i + 1]);
+                }
+            for(int j = 1; j < battalion.length-1; j++){
+                if(battalion[battalion.length-2] == list.get(j) && battalion[battalion.length-1] == list.get(j)){
+                    list.remove(j);
+                    list.remove(j+1);
+                    continue;
+                }
+                else{
+                    list.add(battalion[battalion.length-2]);
+                    list.add(battalion[battalion.length-1]);
+                    break;
+                }
             }
-            list.add(battalion[battalion.length - 2]);
-            list.add(battalion[battalion.length - 1]);
+
             int[] result = new int[list.size()];
             for (int i = 0; i < list.size(); i++) {
                 result[i] = list.get(i);
@@ -69,5 +81,4 @@ public class Level1 {
             }
             return three;
         }
-    }
     }
