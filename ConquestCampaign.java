@@ -1,6 +1,6 @@
 import java.util.*;
 
-public static class Level1 {
+public class Level1 {
         public static int ConquestCampaign(int N, int M, int L, int [] battalion) {
             int result = 0;
             int control = 0;
