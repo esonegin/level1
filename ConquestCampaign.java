@@ -38,9 +38,22 @@ public class Level1 {
 
             //Сравниваем последнюю пару с остальными и добавляем в список, если они не равны
             for(int j = 1; j < battalion.length-1; j++){
-                if(list.size() < 4){
+                if(list.size() == 2 && list.get(j) != battalion[battalion.length - 2] && list.get(j) != battalion[battalion.length - 1]){
+                    list.add(battalion[battalion.length - 2]);
+                    list.add(battalion[battalion.length - 1]);
                     break;
                 }
+
+                if(list.size() == 2 && list.get(j) == battalion[battalion.length - 2] && list.get(j) == battalion[battalion.length - 1]){
+                    break;
+                }
+
+                if(list.size() < 4 && list.get(j) != battalion[battalion.length - 2] && list.get(j) != battalion[battalion.length - 1]){
+                    list.add(battalion[battalion.length - 2]);
+                    list.add(battalion[battalion.length - 1]);
+                    break;
+                }
+
                 if(battalion[battalion.length-2] == list.get(j) && battalion[battalion.length-1] == list.get(j)){
                     list.remove(j);
                     list.remove(j+1);
