@@ -11,10 +11,13 @@ public class Level1 {
             boolean res = true;
             int day = 0;
 
+
             while (res)
+
 
                 for (int i = 0; i < vertgran; i++) {
                     for (int j = 0; j < gorizgran; j++) {
+
 
                         //Увеличиваю на +1 все ненулевые клетки
                         if (table[i][j] != 0) table[i][j] += 1;
@@ -59,6 +62,7 @@ public class Level1 {
                                 res = true;
                             } else {
                                 res = false;
+
                             }
                         }
 
@@ -74,7 +78,12 @@ public class Level1 {
                 System.out.println();
             }*/
 
-            day = table[battalion[0] - 1][battalion[1] - 1] + 1;
+            //Если заняты все клетки, возвращаем 1 день
+            if (CellDublFilter(battalion).length / 2 == N * M) {
+                day = 1;
+            } else {
+                day = table[battalion[0] - 1][battalion[1] - 1] + 1;
+            }
             return day;
         }
 
