@@ -6,9 +6,7 @@ public class Level1 {
             int[] result = new int[0];
             String razbienie = Razbienie(s, len);
             String[] podstroki = razbienie.split(System.lineSeparator());
-
-            System.out.println(razbienie);
-            System.out.println(Arrays.toString(SearchInArray(podstroki, subs)));
+            result = SearchInArray(podstroki, subs);
             return result;
         }
 
