@@ -2,8 +2,8 @@ import java.text.DecimalFormat;
 
 
 public class Level1 {
-        public static String PatternUnlock(int N, int [] hits) {
-            
+        public static string PatternUnlock(int N, int [] hits) {
+
             double[] massivotrezkov = CheckArray(hits);
             double dlinnadouble = Dlinna(massivotrezkov);
             return FormatDlinnaString(dlinnadouble);
