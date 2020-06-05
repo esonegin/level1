@@ -1,7 +1,7 @@
 import java.util.*;
 
 
-public static class Level1 {
+public class Level1 {
         public static int [] WordSearch(int len, String s, String subs) {
             int[] result = new int[0];
             String razbienie = Razbienie(s, len);
