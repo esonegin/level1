@@ -1,5 +1,5 @@
 public class Level1 {
-//10.06.3
+
     public static int [] WordSearch(int len, String s, String subs) {
         int[] result = new int[0];
         //Разбиваем строку по ширине переносом
