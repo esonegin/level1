@@ -1,27 +1,44 @@
 public class Level1 {
-    //10.06
+//10.06.3
     public static int [] WordSearch(int len, String s, String subs) {
-        int[] result;
-
+        int[] result = new int[0];
         //Разбиваем строку по ширине переносом
         String razbienie = Razbienie(s, len);
-
         //Создаем массив подстрок по признаку перехода на новую строку
         String[] podstroki = razbienie.split(System.lineSeparator());
+        String[] splitArray = s.split(" ");
 
-        if (s.contains(" ")) {
-            result = SearchInArrayWithProbel(podstroki, subs);
-        } else {
+        if ((splitArray.length - 1) > 1) {
+            result = SearchInArrayWithManyProbel(podstroki, subs);
+        } else if (splitArray.length - 1 == 1) {
+            result = SearchInArrayWithOneProbel(podstroki, subs);
+        } else if (splitArray.length - 1 == 0) {
             result = SearchInArrayWithoutProbel(podstroki, subs);
         }
         return result;
     }
 
-    //Считаем количество вхождений искомой строки в массив для строки с пробелом
-    public static int[] SearchInArrayWithProbel(String[] podstroki, String subs) {
+
+    //Считаем количество вхождений искомой строки в массив для строки с несколькими пробелами
+    public static int[] SearchInArrayWithOneProbel(String[] podstroki, String subs) {
         int[] result = new int[podstroki.length];
 
 
+        for (int i = 0; i < podstroki.length; i++) {
+            if (podstroki[i].contains(" " + subs + " ")
+                    || podstroki[i].contains(" " + subs + "\n")
+                    || podstroki[i].contains("\n" + subs + "\n")
+                    || podstroki[i].contains("\n" + subs + " ")
+                    || podstroki[i].contains(" " + subs + "")
+                    || podstroki[i].contains("" + subs + " ")) {
+                result[i] = 1;
+            } else result[i] = 0;
+        }
+        return result;
+    }
+    //Считаем количество вхождений искомой строки в массив для строки с несколькими пробелами
+    public static int[] SearchInArrayWithManyProbel(String[] podstroki, String subs) {
+        int[] result = new int[podstroki.length];
         for (int i = 0; i < podstroki.length; i++) {
             if (podstroki[i].contains(" " + subs + " ")
                     || podstroki[i].contains(" " + subs + "\n")
@@ -55,8 +72,8 @@ public class Level1 {
 
     //Разбиваем строку по ширине
     public static String Razbienie(String s, int len) {
-        Pattern p = Pattern.compile("\\s*(?:(\\w{10,})|(.{1,12})(?!\\w))\\s*", Pattern.UNICODE_CHARACTER_CLASS);
-        String first = (p.matcher(s).replaceAll("$1$2\n"));
+        Pattern p = Pattern.compile("\\s*(?:(\\w{10,})|(.{1," + len + "})(?!\\w))\\s*", Pattern.UNICODE_CHARACTER_CLASS);
+        String first = (p.matcher(s).replaceAll(" " + "$1$2\n"));
 
         String second = (p.matcher(s).replaceAll("$1$2"));
         String finalstring = "";
