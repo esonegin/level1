@@ -1,3 +1,7 @@
+import java.util.*;
+import java.util.ArrayList;
+
+
 public class Level1 {
     
     public static int SumOfThe(int N, int [] data) {
