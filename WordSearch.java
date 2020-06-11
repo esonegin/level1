@@ -1,11 +1,12 @@
 public class Level1 {
-
+//10.06.4
+    
     public static int [] WordSearch(int len, String s, String subs) {
         int[] result = new int[0];
         //Разбиваем строку по ширине переносом
         String razbienie = Razbienie(s, len);
         //Создаем массив подстрок по признаку перехода на новую строку
-        String[] podstroki = razbienie.split(System.lineSeparator());
+        String[] podstroki = razbienie.split("\\r?\\n");
         String[] splitArray = s.split(" ");
 
         if ((splitArray.length - 1) > 1) {
@@ -36,6 +37,7 @@ public class Level1 {
         }
         return result;
     }
+
     //Считаем количество вхождений искомой строки в массив для строки с несколькими пробелами
     public static int[] SearchInArrayWithManyProbel(String[] podstroki, String subs) {
         int[] result = new int[podstroki.length];
