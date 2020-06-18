@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.HashMap;
 
 public class Level1 {
-
+//18.06 v2
     public static int PrintingCosts(String Line) {
         return podshet(Line);
     }
@@ -13,7 +13,11 @@ public class Level1 {
         for (int i = 0; i < symbols.length; i++) {
             if (Instrukcia().containsKey(symbols[i])) {
                 result = result + PoluchenieNomera(symbols[i]);
-            } else {
+            }
+            else if (symbols[i] == "") {
+                result = result + 0;
+            }
+            else if(!(Instrukcia().containsKey(symbols[i]))){
                 result = result + 23;
             }
         }
