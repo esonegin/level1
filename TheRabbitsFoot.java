@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Level1 {
-//18.06.v1
+    //18.06.2
     public static String TheRabbitsFoot(String s, boolean encode) {
         if (encode == true) {
             s = Zashifr(s, GetMatrix(s).length);
@@ -91,7 +91,7 @@ public class Level1 {
     }
 
     //Удаляем пробелы и возвращаем длинну строки
-    public static int ReplacerLength(String s) {
+    public static double ReplacerLength(String s) {
         String resultstr = s.replaceAll(" ", "");
         return resultstr.length();
     }
@@ -104,7 +104,9 @@ public class Level1 {
 
     //Возвращаем матрицу подходящего размера
     public static int[][] GetMatrix(String str) {
-        Double verhnyayagr = Precision.round(Math.sqrt(ReplacerLength(str)), 2);
+        Double verhnyayagr = Math.sqrt(ReplacerLength(str));
+        String result = String.format("%.2f", verhnyayagr);
+
         String verhgran = String.valueOf(verhnyayagr);
         String[] subStr;
         String delimeter = "\\.";
