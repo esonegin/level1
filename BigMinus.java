@@ -2,16 +2,19 @@ import java.util.ArrayList;
 import java.util.*;
 
 public class Level1 {
-
+//23.06 v2
     public static String BigMinus(String s1, String s2) {
         String result = "";
         ArrayList<Integer> resultlist = new ArrayList<Integer>();
         Long pervoechislo = Long.valueOf(s1);
         Long vtoroechislo = Long.valueOf(s2);
 
+        //Первое число равно второму
+        if (pervoechislo.equals(vtoroechislo)){
+            result = "0";
+        }
         //Первое число больше второго
-        if (pervoechislo >= vtoroechislo
-                || pervoechislo == vtoroechislo) {
+        else if (pervoechislo > vtoroechislo) {
             resultlist = vichitaniePosimvolnoPolozhitelno(s1, s2);
         } else if (pervoechislo < vtoroechislo) {
             resultlist = vichitaniePosimvolnoPolozhitelno(s2, s1);
@@ -20,6 +23,7 @@ public class Level1 {
         //Наполняем строку результат символами из списка
         for (int k = 0; k < resultlist.size(); k++) {
             result += resultlist.get(k);
+
         }
         return result;
     }
