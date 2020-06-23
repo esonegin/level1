@@ -1,7 +1,6 @@
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-
 public class Level1 {
 
     public static String MassVote(int N, int[] Votes) {
