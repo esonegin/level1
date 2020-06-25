@@ -1,6 +1,6 @@
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-//25.06
+//25.06 v2
 
 public class Level1 {
 
