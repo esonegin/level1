@@ -10,7 +10,7 @@ public class Level1 {
             result = "no winner";
         } else if (procentkandidata(Votes, indexmax(Votes)) > 50) {
             result = "majority winner " + (indexmax(Votes) + 1);
-        } else if (procentkandidata(Votes, indexmax(Votes)) < 50) {
+        } else if (procentkandidata(Votes, indexmax(Votes)) <= 50) {
             result = "minority winner " + (indexmax(Votes) + 1);
         }
         return result;
