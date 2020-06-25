@@ -1,5 +1,6 @@
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+//25.06
 
 public class Level1 {
 
@@ -15,7 +16,6 @@ public class Level1 {
         return result;
     }
 
-    //Ищем количество максимальных чисел
     public static int kolvomax(int[] Votes) {
         int kolvomax = 0;
         for (
@@ -28,7 +28,7 @@ public class Level1 {
         return kolvomax;
     }
 
-    //Находим макисмум в массиве
+
     public static int maximum(int[] Votes) {
         int max = Votes[0];
 
@@ -39,7 +39,7 @@ public class Level1 {
         return max;
     }
 
-    //Находим индекс максимуму в массиве
+
     public static int indexmax(int[] Votes) {
         int max = Votes[0];
         int indexmax = 0;
@@ -50,8 +50,7 @@ public class Level1 {
             }
         return indexmax;
     }
-
-    //Считаем процент голосов за конкретного кандидата
+    
     public static double procentkandidata(int[] Votes, int nomer) {
         double kolvogolosov = Votes[nomer];
         double odinprocent = stoprocentov(Votes) / 100.00;
@@ -62,7 +61,7 @@ public class Level1 {
 
     }
 
-    //Считаем общее количество голосов
+
     public static int stoprocentov(int[] Votes) {
         int stoprocentov = 0;
         for (int i = 0; i < Votes.length; i++) {
