@@ -1,11 +1,20 @@
 import java.util.*;
-//v2
+//v3
 
 public class Level1 {
+
+    public static void main(String[] args) {
+        int dlinnadorogi = 10;
+        int kolvosvetoforov = 2;
+        int[][] opisanie = {{3,2,2},{6,1,3}};
+        System.out.print(Unmanned(dlinnadorogi, kolvosvetoforov, opisanie));
+
+    }
 
     public static int Unmanned(int L, int N, int[][] track) {
         int time = 0;
         Svetofors[] svetofors = arraySvetofors(track);
+
         if (track.length == 0) {
             time = L;
         } else if (track.length != 0) {
@@ -22,6 +31,7 @@ public class Level1 {
                     if (nomer + 1 < svetofors.length) {
                         nomer++;
                     }
+
 
                 } else if (rasstoyanie != svetofors[nomer].mesto) {
                     time++;
@@ -48,7 +58,7 @@ public class Level1 {
         public String TimeStep(int time, int red, int green) {
             String result = null;
             int res = 0;
-
+            //Дефолтный красный
             if (time <= red - 1) {
                 result = "red";
             }
@@ -75,6 +85,9 @@ public class Level1 {
                     result = "red";
                 }
                 else if (res % 2 == 0 && res > time && mesto % 2 != 0) {
+                    result = "green";
+                }
+                else if (res % 2 == 0 && res > time && mesto % 2 == 0) {
                     result = "green";
                 }
                 else if (res % 2 == 0 && res == time) {
