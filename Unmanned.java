@@ -3,14 +3,6 @@ import java.util.*;
 
 public class Level1 {
 
-    public static void main(String[] args) {
-        int dlinnadorogi = 10;
-        int kolvosvetoforov = 2;
-        int[][] opisanie = {{3,2,2},{6,1,3}};
-        System.out.print(Unmanned(dlinnadorogi, kolvosvetoforov, opisanie));
-
-    }
-
     public static int Unmanned(int L, int N, int[][] track) {
         int time = 0;
         Svetofors[] svetofors = arraySvetofors(track);
