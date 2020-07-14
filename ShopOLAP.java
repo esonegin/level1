@@ -1,11 +1,64 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Stream;
 
-
-public class Level1 {
-
+class Level1 {
+//v2
     public static String[] ShopOLAP(int N, String[] items) {
-        return convertListToFinalArray(udalenieDubley(poluchenieLista(items)));
+        String[] resultf = convertListToFinalArray(udalenieDubley(poluchenieLista(items)));
+        ArrayList<String> result = (udalenieDubley(RazbienieItemAndValue(items)));
+        HashMap<String, Integer> map = new HashMap<>();
+        String[] resultfinal = new String[result.size()/2];
+        for (int i = 0; i < result.size(); i += 2) {
+            map.put(result.get(i), Integer.parseInt(result.get(i + 1)));
+        }
+
+        if (hasDuplicates(map)) {
+
+            for (int i = 0; i < resultf.length; i++) {
+                resultfinal[i] = resultf[i];
+            }
+        }
+        else if (!hasDuplicates(map)) {
+            for (int i = 0; i < finalSort(items).length; i++) {
+                resultfinal[i] = finalSort(items)[i];
+            }
+        }
+        return resultfinal;
+    }
+
+    private static boolean hasDuplicates(Map<String, Integer> datamap) {
+        boolean status = false;
+        Set valueset = new HashSet(datamap.values());
+
+        if (datamap.values().size() != valueset.size()) {
+            status = true;
+        } else {
+            status = false;
+        }
+        return status;
+    }
+
+    public static String[] finalSort(String[] items) {
+        ArrayList<String> result = (udalenieDubley(RazbienieItemAndValue(items)));
+        HashMap<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < result.size(); i += 2) {
+            map.put(result.get(i), Integer.parseInt(result.get(i + 1)));
+        }
+        map = (HashMap<String, Integer>) sortByValue(map);
+        String[] resultarray = new String[map.size()];
+        int i = 0;
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            resultarray[resultarray.length - 1 - i] = (entry.getKey() + " " + entry.getValue());
+            i++;
+        }
+        return resultarray;
+    }
+
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        Map<K, V> result = new LinkedHashMap<>();
+        Stream<Map.Entry<K, V>> st = map.entrySet().stream();
+        st.sorted(Comparator.comparing(e -> e.getValue())).forEach(e -> result.put(e.getKey(), e.getValue()));
+        return result;
     }
 
     public static ArrayList<String> udalenieDubley(ArrayList<String> resultlist) {
@@ -17,6 +70,16 @@ public class Level1 {
             }
         }
         return resultlist;
+    }
+
+    public static ArrayList<String> RazbienieItemAndValue(String[] result) {
+        Arrays.parallelSort(result);
+        ArrayList<String> first = new ArrayList<>();
+        for (int i = 0; i < result.length; i++) {
+            first.add(result[i].split(" ")[0]);
+            first.add(result[i].split(" ")[1]);
+        }
+        return first;
     }
 
     public static String[] convertListToFinalArray(ArrayList<String> resultlist) {
