@@ -1,7 +1,7 @@
 import java.util.*;
 import java.util.stream.Stream;
 
-class Level1 {
+public class Level1 {
 //v2
     public static String[] ShopOLAP(int N, String[] items) {
         String[] resultf = convertListToFinalArray(udalenieDubley(poluchenieLista(items)));
