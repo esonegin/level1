@@ -1,103 +1,139 @@
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Level1 {
 //v2
     public static String[] ShopOLAP(int N, String[] items) {
-        String[] resultf = convertListToFinalArray(udalenieDubley(poluchenieLista(items)));
-        ArrayList<String> result = (udalenieDubley(RazbienieItemAndValue(items)));
-        HashMap<String, Integer> map = new HashMap<>();
-        String[] resultfinal = new String[result.size()/2];
-        for (int i = 0; i < result.size(); i += 2) {
-            map.put(result.get(i), Integer.parseInt(result.get(i + 1)));
-        }
-
-        if (hasDuplicates(map)) {
-
-            for (int i = 0; i < resultf.length; i++) {
-                resultfinal[i] = resultf[i];
+        ArrayList<Element> resultlist = valueSortList(items);
+        ArrayList<Element> dubllist = getDublList(resultlist);
+        String[] resultarray = new String[resultlist.size()];
+        if (dubllist.size() != 0) {
+            ArrayList<Element> getSortDublList = getSortDublList(dubllist);
+            ArrayList<String> getSortStringDubllist = new ArrayList<String>();
+            for (int i = 0; i < getSortDublList.size(); i++) {
+                getSortStringDubllist.add(String.valueOf(getSortDublList.get(i).key));
+            }
+            ArrayList<Element> withoutdubllist = getWithoutDublList(resultlist);
+            ArrayList<Element> finallist = getSortWithDublsList(withoutdubllist, getSortDublList);
+            for (int i = 0; i < finallist.size(); i++) {
+                resultarray[i] = finallist.get(i).getKey() + " " + finallist.get(i).getValue();
+            }
+        } else if (dubllist.size() == 0) {
+            for (int i = 0; i < resultlist.size(); i++) {
+                resultarray[i] = resultlist.get(i).getKey() + " " + resultlist.get(i).getValue();
             }
         }
-        else if (!hasDuplicates(map)) {
-            for (int i = 0; i < finalSort(items).length; i++) {
-                resultfinal[i] = finalSort(items)[i];
-            }
-        }
-        return resultfinal;
-    }
 
-    private static boolean hasDuplicates(Map<String, Integer> datamap) {
-        boolean status = false;
-        Set valueset = new HashSet(datamap.values());
-
-        if (datamap.values().size() != valueset.size()) {
-            status = true;
-        } else {
-            status = false;
-        }
-        return status;
-    }
-
-    public static String[] finalSort(String[] items) {
-        ArrayList<String> result = (udalenieDubley(RazbienieItemAndValue(items)));
-        HashMap<String, Integer> map = new HashMap<>();
-        for (int i = 0; i < result.size(); i += 2) {
-            map.put(result.get(i), Integer.parseInt(result.get(i + 1)));
-        }
-        map = (HashMap<String, Integer>) sortByValue(map);
-        String[] resultarray = new String[map.size()];
-        int i = 0;
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            resultarray[resultarray.length - 1 - i] = (entry.getKey() + " " + entry.getValue());
-            i++;
-        }
         return resultarray;
     }
 
-    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
-        Map<K, V> result = new LinkedHashMap<>();
-        Stream<Map.Entry<K, V>> st = map.entrySet().stream();
-        st.sorted(Comparator.comparing(e -> e.getValue())).forEach(e -> result.put(e.getKey(), e.getValue()));
-        return result;
+    public static ArrayList<Element> getSortWithDublsList(ArrayList<Element> withoutdubllist, ArrayList<Element> getSortDublList) {
+        ArrayList<Element> sortwithdublslist = new ArrayList<>();
+
+        for (int i = 0; i < withoutdubllist.size(); i++)
+            if (withoutdubllist.get(i).value > getSortDublList.get(0).value) {
+                sortwithdublslist.add(withoutdubllist.get(i));
+            } else break;
+
+        for (int i = 0; i < getSortDublList.size(); i++) {
+            sortwithdublslist.add(getSortDublList.get(i));
+        }
+
+        for (int i = 0; i < withoutdubllist.size(); i++)
+            if (withoutdubllist.get(i).value < getSortDublList.get(0).value) {
+                sortwithdublslist.add(withoutdubllist.get(i));
+            }
+
+        return sortwithdublslist;
     }
 
-    public static ArrayList<String> udalenieDubley(ArrayList<String> resultlist) {
-        for (int i = 0; i < resultlist.size() - 3; i++) {
-            if (resultlist.get(i).equals(resultlist.get(i + 2))) {
-                resultlist.set(i + 3, String.valueOf(Integer.parseInt(resultlist.get(i + 3)) + Integer.parseInt(resultlist.get(i + 1))));
-                resultlist.remove(i);
-                resultlist.remove(i);
+
+    public static ArrayList<Element> getWithoutDublList(ArrayList<Element> reslist) {
+        int dublvalue = getDublList(reslist).get(0).value;
+        ArrayList<Element> withoutdubllist = new ArrayList<>();
+        for (int i = 0; i < reslist.size(); i++) {
+            if (reslist.get(i).value != dublvalue) {
+                withoutdubllist.add(reslist.get(i));
             }
         }
-        return resultlist;
+        return withoutdubllist;
     }
 
-    public static ArrayList<String> RazbienieItemAndValue(String[] result) {
-        Arrays.parallelSort(result);
-        ArrayList<String> first = new ArrayList<>();
-        for (int i = 0; i < result.length; i++) {
-            first.add(result[i].split(" ")[0]);
-            first.add(result[i].split(" ")[1]);
+    public static ArrayList<Element> getDublList(ArrayList<Element> list) {
+        ArrayList<Element> dubls = new ArrayList<Element>();
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).getValue().equals(list.get(i + 1).getValue())) {
+                dubls.add(list.get(i));
+                dubls.add(list.get(i + 1));
+            }
         }
-        return first;
-    }
-
-    public static String[] convertListToFinalArray(ArrayList<String> resultlist) {
-        ArrayList<String> resultlistf = new ArrayList<>();
-        for (int i = 0; i < resultlist.size() - 1; i += 2) {
-            resultlistf.add(resultlist.get(i) + " " + resultlist.get(i + 1));
+        for (int i = 0; i < dubls.size() - 1; i++) {
+            if (dubls.get(i) == dubls.get(i + 1)) {
+                dubls.remove(i);
+            }
         }
-        String[] myArray = resultlistf.toArray(new String[0]);
-        return myArray;
+
+        return dubls;
     }
 
-    public static ArrayList<String> poluchenieLista(String[] result) {
+    public static ArrayList<Element> getSortDublList(ArrayList<Element> list) {
+        ArrayList<Element> sortdubls = new ArrayList<Element>();
+        HashMap<String, Integer> dublsMap = new HashMap<>();
+        for (int i = 0; i < list.size(); i++) {
+            dublsMap.put(list.get(i).key, list.get(i).value);
+        }
+
+        for (Map.Entry<String, Integer> entry : dublsMap.entrySet()) {
+            sortdubls.add(new Element(String.valueOf(entry.getKey()), entry.getValue()));
+        }
+
+        return sortdubls;
+    }
+
+    public static ArrayList<Element> valueSortList(String[] re) {
+        ArrayList<Element> resultobjlist = resultobjlist(re);
+        for (int i = 0; i < resultobjlist.size() - 1; ) {
+            if (resultobjlist.get(i).key.equals(resultobjlist.get(i + 1).key)) {
+                Element element = new Element(resultobjlist.get(i).key, resultobjlist.get(i).value + resultobjlist.get(i + 1).value);
+                resultobjlist.set(i, resultobjlist.set(i + 1, element));
+                resultobjlist.remove(i);
+            } else i++;
+        }
+        resultobjlist.sort(new Comparator<Element>() {
+            public int compare(Element o1, Element o2) {
+                if (o2.getValue() == o1.getValue()) return 0;
+                else if (o2.getValue() > o1.getValue()) return 1;
+                else return -1;
+            }
+        });
+
+        return resultobjlist;
+    }
+
+
+    public static ArrayList<Element> resultobjlist(String[] result) {
         Arrays.sort(result);
-        ArrayList<String> first = new ArrayList<>();
+        ArrayList<Element> resultobjlist = new ArrayList<Element>();
         for (int i = 0; i < result.length; i++) {
-            first.add(result[i].split(" ")[0]);
-            first.add(result[i].split(" ")[1]);
+            resultobjlist.add(new Element(result[i].split(" ")[0], Integer.valueOf(result[i].split(" ")[1])));
         }
-        return first;
+        return resultobjlist;
+    }
+
+    public static class Element {
+        String key;
+        Integer value;
+
+        public Element(String key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
     }
 }
