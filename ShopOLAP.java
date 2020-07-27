@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Level1 {
-//v2
+//v3
     public static String[] ShopOLAP(int N, String[] items) {
         ArrayList<Element> resultlist = valueSortList(items);
         ArrayList<Element> dubllist = getDublList(resultlist);
@@ -77,13 +77,15 @@ public class Level1 {
 
     public static ArrayList<Element> getSortDublList(ArrayList<Element> list) {
         ArrayList<Element> sortdubls = new ArrayList<Element>();
-        HashMap<String, Integer> dublsMap = new HashMap<>();
-        for (int i = 0; i < list.size(); i++) {
-            dublsMap.put(list.get(i).key, list.get(i).value);
+        ArrayList<String> stringdubls = new ArrayList<String>();
+        for(int i = 0; i < list.size(); i++){
+            stringdubls.add(list.get(i).key);
         }
 
-        for (Map.Entry<String, Integer> entry : dublsMap.entrySet()) {
-            sortdubls.add(new Element(String.valueOf(entry.getKey()), entry.getValue()));
+        Collections.sort(stringdubls);
+
+        for (int i = 0; i < stringdubls.size(); i++){
+            sortdubls.add(new Element(stringdubls.get(i), list.get(i).value));
         }
 
         return sortdubls;
