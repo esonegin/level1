@@ -4,13 +4,12 @@ import java.util.*;
 public class Level1  {
 
     static Stroka stroka = new Stroka("");
-
-    public static String BastShoe(String command) {
+ public static String BastShoe(String command) {
         int com;
         String value = "";
         String result = "";
 
- 
+        //Парсим команду и значение
         if (command.contains(" ")) {
             com = Integer.parseInt(command.split(" ")[0]);
             value = command.substring(2);
@@ -18,13 +17,14 @@ public class Level1  {
             com = Integer.parseInt(command);
         }
 
-       
+        //Если добавление
         if (com == 1) {
             command1(value);
-         
+            //Если удаление
         } else if (com == 2) {
             command2(value);
 
+            //Если отмена добавления или удаления
         } else if (com == 4) {
             command4();
 
@@ -46,19 +46,21 @@ public class Level1  {
 
     public static void command1(String value) {
         stroka.setValue(stroka.getValue() + value);
-   
+        //Обнуляем счетчик Undo
         if (stroka.getPredoperation() == 4) {
             stroka.replaceSpisokAll();
             stroka.setSpisokAll(stroka.getValueOtkat());
             stroka.setUndoCount(0);
         }
-
+        //Устанавливаем маркер предыдущей операции
         stroka.setPredoperation(1);
         stroka.setSpisokAll(stroka.getValue());
     }
 
     public static void command2(String value) {
 
+
+        //Обнуляем счетчик Undo
         if (stroka.getPredoperation() == 4) {
             stroka.replaceSpisokAll();
             stroka.setSpisokAll(stroka.getValueOtkat());
@@ -70,19 +72,25 @@ public class Level1  {
         } else {
             stroka.setValue(stroka.getValue().substring(0, stroka.getValue().length() - Integer.parseInt(value)));
         }
+
+        //Устанавливаем маркер предыдущей операции
         stroka.setPredoperation(2);
         stroka.setSpisokAll(stroka.getValue());
 
     }
 
     public static String command3(String value) {
-        String result = (stroka.getValue().substring(Integer.parseInt(value), Integer.parseInt(value) + 1));
+        String result = "";
+        if(Integer.parseInt(value) < stroka.getValue().length()) {
+            result = (stroka.getValue().substring(Integer.parseInt(value), Integer.parseInt(value) + 1));
+        }
+        else {result = "";}
         stroka.setPredoperation(3);
         return result;
     }
 
     public static void command4() {
-        
+        //Получаем список всех значений добавлений и удалений и вычитаем
         stroka.getSpisokAll();
 
         if (stroka.getSpisokAll().size() == 1) {
@@ -118,7 +126,7 @@ public class Level1  {
     }
 
     public static void command5() {
-        
+        //Проверяем, что есть что откатывать
         stroka.getSpisokAll();
         if(stroka.getSpisokUndo().size() - 1 - stroka.getRedoCount() >= 0 && stroka.getSpisokAll().size() > 2) {
             stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - 1 - stroka.getRedoCount()));
@@ -215,5 +223,7 @@ public class Level1  {
         public void replaceSpisokAll() {
             spisokAll.clear();
         }
+
+
     }
 }
