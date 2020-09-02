@@ -130,7 +130,7 @@ public class Level1  {
             stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - 1 - stroka.getRedoCount()));
         }
         else if(stroka.getSpisokUndo().size() - 1 - stroka.getRedoCount() >= 0 && stroka.getSpisokAll().size() == 2) {
-            stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - 1));
+            stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - stroka.getUndoCount()));
         }
         else{
             stroka.setValue(stroka.getValue());
@@ -141,13 +141,6 @@ public class Level1  {
 
 
     }
-
-
-    public static String udalenie(String tekushee, String kolvosimvolov) {
-        String result = tekushee.substring(0, tekushee.length() - Integer.parseInt(kolvosimvolov));
-        return result;
-    }
-
 
     public static class Stroka {
         private String value;
