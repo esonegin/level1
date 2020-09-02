@@ -9,6 +9,8 @@ public class Level1  {
         int com;
         String value = "";
         String result = "";
+
+ 
         if (command.contains(" ")) {
             com = Integer.parseInt(command.split(" ")[0]);
             value = command.substring(2);
@@ -16,77 +18,124 @@ public class Level1  {
             com = Integer.parseInt(command);
         }
 
-
+       
         if (com == 1) {
-            if (stroka.getPredoperation() == 4) {
-                stroka.delSpisokZnacheniy();
-                stroka.setKolvoUdaleniyPodryad(0);
-            }
-            stroka.setValue(dobavlenie(stroka.getValue(), value));
-            stroka.setPredoperation(1);
-            stroka.setKolvoUdaleniyPodryad(0);
-            stroka.setSpisokZnacheniy(stroka.getValue());
-
-
+            command1(value);
+         
         } else if (com == 2) {
-            if (Integer.parseInt(value) > stroka.getValue().length()) {
-                if (stroka.getPredoperation() == 4) {
-                    stroka.delSpisokZnacheniy();
-                    stroka.setKolvoUdaleniyPodryad(0);
-                }
-                stroka.setValue("");
-                stroka.setPredoperation(2);
-                stroka.setKolvoUdaleniyPodryad(0);
-                stroka.setSpisokZnacheniy(stroka.getValue());
+            command2(value);
 
-            } else {
-                if (stroka.getPredoperation() == 4) {
-                    stroka.delSpisokZnacheniy();
-                    stroka.setKolvoUdaleniyPodryad(0);
-                }
-                stroka.setValue(udalenie(stroka.getValue(), value));
-                stroka.setPredoperation(2);
-                stroka.setKolvoUdaleniyPodryad(0);
-                stroka.setSpisokZnacheniy(stroka.getValue());
+        } else if (com == 4) {
+            command4();
 
-            }
-
-
-        } else if (com == 4 && (stroka.getPredoperation() == 1 || stroka.getPredoperation() == 2) && stroka.getKolvoUdaleniyPodryad() == 0 && stroka.getSpisokZnacheniy().size() != 0) {
-
-            stroka.setKolvoUdaleniyPodryad(0);
-
-            stroka.setValue(stroka.getSpisokZnacheniy().get(stroka.getSpisokZnacheniy().size() - 2 + stroka.getKolvoUdaleniyPodryad()));
-
-            stroka.setKolvoUdaleniyPodryad(stroka.getKolvoUdaleniyPodryad() + 1);
-
-            stroka.setPredoperation(4);
-
-        } else if (com == 4 && stroka.getPredoperation() == 4 && stroka.getKolvoUdaleniyPodryad() > 0 && stroka.getSpisokZnacheniy().size() - 2 - stroka.getKolvoUdaleniyPodryad() > 0) {
-
-            stroka.setValue(stroka.getSpisokZnacheniy().get(stroka.getSpisokZnacheniy().size() - 2 - stroka.getKolvoUdaleniyPodryad()));
-
-            stroka.setKolvoUdaleniyPodryad(stroka.getKolvoUdaleniyPodryad() + 1);
-        } else if (com == 4 && stroka.getSpisokZnacheniy().size() - 2 - stroka.getKolvoUdaleniyPodryad() < 0) {
-            stroka.setValue(stroka.getValue());
+        } else if (com == 5) {
+            command5();
         }
-
 
         if (com == 1 || com == 2 || com == 4 || com == 5) {
             result = stroka.getValue();
+
         } else if (com == 3) {
-            result = (stroka.getValue().substring(Integer.parseInt(value), Integer.parseInt(value) + 1));
+            result = command3(value);
         }
 
-        //System.out.println(result);
+        System.out.println(result);
 
         return result;
     }
 
-    public static String dobavlenie(String tekushee, String dobavlyaemoe) {
-        String result = tekushee + dobavlyaemoe;
+    public static void command1(String value) {
+        stroka.setValue(stroka.getValue() + value);
+   
+        if (stroka.getPredoperation() == 4) {
+            stroka.replaceSpisokAll();
+            stroka.setSpisokAll(stroka.getValueOtkat());
+            stroka.setUndoCount(0);
+        }
+
+        stroka.setPredoperation(1);
+        stroka.setSpisokAll(stroka.getValue());
+    }
+
+    public static void command2(String value) {
+
+        if (stroka.getPredoperation() == 4) {
+            stroka.replaceSpisokAll();
+            stroka.setSpisokAll(stroka.getValueOtkat());
+            stroka.setUndoCount(0);
+        }
+
+        if (Integer.parseInt(value) > stroka.getValue().length()) {
+            stroka.setValue("");
+        } else {
+            stroka.setValue(stroka.getValue().substring(0, stroka.getValue().length() - Integer.parseInt(value)));
+        }
+        stroka.setPredoperation(2);
+        stroka.setSpisokAll(stroka.getValue());
+
+    }
+
+    public static String command3(String value) {
+        String result = (stroka.getValue().substring(Integer.parseInt(value), Integer.parseInt(value) + 1));
+        stroka.setPredoperation(3);
         return result;
     }
+
+    public static void command4() {
+        
+        stroka.getSpisokAll();
+
+        if (stroka.getSpisokAll().size() == 1) {
+            stroka.setSpisokUndo(stroka.getValue());
+            stroka.setValue(stroka.getSpisokAll().get(0));
+
+
+        } else if (stroka.getSpisokAll().size() == 2 && stroka.getUndoCount() == 0) {
+            stroka.setSpisokUndo(stroka.getValue());
+            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2));
+
+        } else if (stroka.getSpisokAll().size() == 2 && stroka.getUndoCount() > 0) {
+            stroka.setSpisokUndo(stroka.getValue());
+            stroka.setValue(stroka.getSpisokAll().get(0));
+
+        } else if (stroka.getSpisokAll().size() > 2 && stroka.getUndoCount() == 0) {
+            stroka.setSpisokUndo(stroka.getValue());
+            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2));
+
+        } else if (stroka.getSpisokAll().size() > 2 && stroka.getUndoCount() > 0 && stroka.getSpisokAll().size() >= (stroka.getUndoCount() + stroka.getRedoCount())) {
+            stroka.setSpisokUndo(stroka.getValue());
+            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2 - stroka.getUndoCount()));
+        }
+
+        else if (stroka.getSpisokAll().size() > 2 && stroka.getUndoCount() > 0 && stroka.getSpisokAll().size() < (stroka.getUndoCount() + stroka.getRedoCount())) {
+            stroka.setSpisokUndo(stroka.getValue());
+            stroka.setValue(stroka.getSpisokAll().get(0));
+        }
+
+        stroka.setPredoperation(4);
+        stroka.setUndoCount(stroka.getUndoCount() + 1);
+        stroka.setValueOtkat(stroka.getValue());
+    }
+
+    public static void command5() {
+        
+        stroka.getSpisokAll();
+        if(stroka.getSpisokUndo().size() - 1 - stroka.getRedoCount() >= 0 && stroka.getSpisokAll().size() > 2) {
+            stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - 1 - stroka.getRedoCount()));
+        }
+        else if(stroka.getSpisokUndo().size() - 1 - stroka.getRedoCount() >= 0 && stroka.getSpisokAll().size() == 2) {
+            stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - 1));
+        }
+        else{
+            stroka.setValue(stroka.getValue());
+        }
+        stroka.setSpisokAll(stroka.getValue());
+        stroka.setRedoCount(stroka.getRedoCount() + 1);
+        stroka.setPredoperation(5);
+
+
+    }
+
 
     public static String udalenie(String tekushee, String kolvosimvolov) {
         String result = tekushee.substring(0, tekushee.length() - Integer.parseInt(kolvosimvolov));
@@ -97,8 +146,11 @@ public class Level1  {
     public static class Stroka {
         private String value;
         private int predoperation;
-        private int kolvoUdaleniyPodryad;
-        ArrayList<String> spisokZnacheniy = new ArrayList<String>();
+        ArrayList<String> spisokAll = new ArrayList<String>();
+        ArrayList<String> spisokUndo = new ArrayList<String>();
+        private int undoCount;
+        private int redoCount;
+        private String valueOtkat;
 
         public Stroka(String value) {
             this.value = value;
@@ -112,12 +164,24 @@ public class Level1  {
             return predoperation;
         }
 
-        public int getKolvoUdaleniyPodryad() {
-            return kolvoUdaleniyPodryad;
+        public ArrayList<String> getSpisokAll() {
+            return spisokAll;
         }
 
-        public ArrayList<String> getSpisokZnacheniy() {
-            return spisokZnacheniy;
+        public ArrayList<String> getSpisokUndo() {
+            return spisokUndo;
+        }
+
+        public int getUndoCount() {
+            return undoCount;
+        }
+
+        public int getRedoCount() {
+            return redoCount;
+        }
+
+        public String getValueOtkat() {
+            return valueOtkat;
         }
 
         public void setValue(String value) {
@@ -128,21 +192,28 @@ public class Level1  {
             this.predoperation = predoperation;
         }
 
-        public void setKolvoUdaleniyPodryad(int kolvoUdaleniyPodryad) {
-            this.kolvoUdaleniyPodryad = kolvoUdaleniyPodryad;
+        public void setSpisokAll(String stroka) {
+            spisokAll.add(stroka);
         }
 
-        public void setSpisokZnacheniy(String stroka) {
-            spisokZnacheniy.add(stroka);
+        public void setSpisokUndo(String stroka) {
+            spisokUndo.add(stroka);
         }
 
-        public void delSpisokZnacheniy() {
-            for (int i = 0; i < spisokZnacheniy.size() - 1; i++) {
-                spisokZnacheniy.remove(i);
-            }
-
+        public void setUndoCount(int undoCount) {
+            this.undoCount = undoCount;
         }
 
+        public void setRedoCount(int redoCount) {
+            this.redoCount = redoCount;
+        }
+
+        public void setValueOtkat(String valueOtkat) {
+            this.valueOtkat = valueOtkat;
+        }
+
+        public void replaceSpisokAll() {
+            spisokAll.clear();
+        }
     }
-    
 }
