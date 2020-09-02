@@ -93,7 +93,7 @@ public class Level1  {
 
         if (stroka.getSpisokAll().size() == 1) {
             stroka.setSpisokUndo(stroka.getValue());
-            stroka.setValue(stroka.getSpisokAll().get(0));
+            stroka.setValue("");
 
 
         } else if (stroka.getSpisokAll().size() == 2 && stroka.getUndoCount() == 0) {
