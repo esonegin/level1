@@ -4,8 +4,7 @@ import java.util.*;
 public class Level1  {
 
     static Stroka stroka = new Stroka("");
-    
-public static String BastShoe(String command) {
+ public static String BastShoe(String command) {
         int com;
         String value = "";
         String result = "";
@@ -73,25 +72,45 @@ public static String BastShoe(String command) {
 
     public static void command4() {
        if (stroka.getSpisokAll().size() == 1) {
-            stroka.setSpisokUndo(stroka.getValue());
-            stroka.setValue("");
-        } else if (stroka.getSpisokAll().size() == 2 && stroka.getUndoCount() == 0) {
-            stroka.setSpisokUndo(stroka.getValue());
-            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2));
-        } else if (stroka.getSpisokAll().size() == 2 && stroka.getUndoCount() > 0) {
-            stroka.setSpisokUndo(stroka.getValue());
-            stroka.setValue(stroka.getSpisokAll().get(0));
-        } else if (stroka.getSpisokAll().size() > 2 && stroka.getUndoCount() == 0) {
-            stroka.setSpisokUndo(stroka.getValue());
-            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2));
-        } else if (stroka.getSpisokAll().size() > 2 && stroka.getUndoCount() > 0 && stroka.getSpisokAll().size() >= (stroka.getUndoCount() + stroka.getRedoCount())) {
-            stroka.setSpisokUndo(stroka.getValue());
-            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2 - stroka.getUndoCount()));
-        }
-        else if (stroka.getSpisokAll().size() > 2 && stroka.getUndoCount() > 0 && stroka.getSpisokAll().size() < (stroka.getUndoCount() + stroka.getRedoCount())) {
-            stroka.setSpisokUndo(stroka.getValue());
-            stroka.setValue(stroka.getSpisokAll().get(0));
-        }
+           stroka.setValue("");
+           stroka.setSpisokUndo(stroka.getValue());
+       }
+       else if (stroka.getSpisokAll().size() > 1 && stroka.getSpisokUndo().size() == 0){
+           stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2));
+           stroka.setSpisokUndo(stroka.getValue());
+       }
+       else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+               && stroka.getSpisokAll().size() > stroka.getSpisokUndo().size()){
+           stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2 - stroka.getSpisokUndo().size()));
+           stroka.setSpisokUndo(stroka.getValue());
+       }
+
+       else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+               && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size() && stroka.getSpisokUndo().size() != stroka.getSpisokRedo().size()){
+           stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - (stroka.getSpisokUndo().size() - 1)));
+           stroka.setSpisokUndo(stroka.getValue());
+       }
+
+       else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+               && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size() && stroka.getSpisokUndo().size() == stroka.getSpisokRedo().size()){
+           stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2));
+           stroka.setSpisokUndo(stroka.getValue());
+       }
+       else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() == 5
+               && stroka.getSpisokAll().size() > stroka.getSpisokRedo().size()){
+           stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size()));
+           stroka.setSpisokUndo(stroka.getValue());
+       }
+       else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() == 5
+               && stroka.getSpisokAll().size() <= stroka.getSpisokRedo().size()){
+           stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - stroka.getSpisokAll().size()));
+           stroka.setSpisokUndo(stroka.getValue());
+       }
+       else if (stroka.getSpisokAll().size() == 2 && stroka.getSpisokUndo().size() > 0){
+           stroka.setValue(stroka.getSpisokAll().get(0));
+           stroka.setSpisokUndo(stroka.getValue());
+       }
+
         stroka.setPredoperation(4);
         stroka.setUndoCount(stroka.getUndoCount() + 1);
         stroka.setValueOtkat(stroka.getValue());
@@ -99,19 +118,36 @@ public static String BastShoe(String command) {
 
     public static void command5() {
         stroka.getSpisokAll();
-        if(stroka.getSpisokUndo().size() - 1 - stroka.getRedoCount() >= 0 && stroka.getSpisokAll().size() > 2) {
-            stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - 1 - stroka.getRedoCount()));
+        if(stroka.getSpisokRedo().size() == 0) {
+            stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - 2));
+            stroka.setSpisokRedo(stroka.getValue());
         }
-        else if(stroka.getSpisokUndo().size() - 1 - stroka.getRedoCount() >= 0 && stroka.getSpisokAll().size() == 2 && stroka.getUndoCount() == 1) {
-            stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - stroka.getUndoCount()));
+        else if(stroka.getSpisokRedo().size() != 0 && stroka.getPredoperation() != 5
+                && stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() != 1){
+            stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - 2 - stroka.getSpisokRedo().size()));
+            stroka.setSpisokRedo(stroka.getValue());
         }
-        else if(stroka.getSpisokUndo().size() - 1 - stroka.getRedoCount() >= 0 && stroka.getSpisokAll().size() == 2 && stroka.getUndoCount() > 1) {
-            stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - stroka.getRedoCount()));
+        else if(stroka.getSpisokRedo().size() != 0 && stroka.getPredoperation() == 5
+                && stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() != 1
+                && stroka.getSpisokUndo().size() > stroka.getSpisokRedo().size()){
+            stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - 1 - stroka.getSpisokRedo().size()));
+            stroka.setSpisokRedo(stroka.getValue());
         }
-        else{
-            stroka.setValue(stroka.getValue());
+        else if(stroka.getSpisokRedo().size() != 0 && stroka.getPredoperation() == 5
+                && stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() != 1
+                && stroka.getSpisokUndo().size() <= stroka.getSpisokRedo().size()){
+            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 1));
+            stroka.setSpisokRedo(stroka.getValue());
         }
-        stroka.setSpisokAll(stroka.getValue());
+        else if(stroka.getSpisokRedo().size() != 0 && stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() <= 1){
+            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 1));
+            stroka.setSpisokRedo(stroka.getValue());
+        }
+        else if(stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() == 1){
+            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 1));
+            stroka.setSpisokRedo(stroka.getValue());
+        }
+
         stroka.setRedoCount(stroka.getRedoCount() + 1);
         stroka.setPredoperation(5);
 
@@ -122,6 +158,7 @@ public static String BastShoe(String command) {
         private int predoperation;
         ArrayList<String> spisokAll = new ArrayList<String>();
         ArrayList<String> spisokUndo = new ArrayList<String>();
+        ArrayList<String> spisokRedo = new ArrayList<String>();
         private int undoCount;
         private int redoCount;
         private String valueOtkat;
@@ -140,6 +177,9 @@ public static String BastShoe(String command) {
         }
         public ArrayList<String> getSpisokUndo() {
             return spisokUndo;
+        }
+        public ArrayList<String> getSpisokRedo() {
+            return spisokRedo;
         }
         public int getUndoCount() {
             return undoCount;
@@ -162,6 +202,9 @@ public static String BastShoe(String command) {
         public void setSpisokUndo(String stroka) {
             spisokUndo.add(stroka);
         }
+        public void setSpisokRedo(String stroka) {
+            spisokRedo.add(stroka);
+        }
         public void setUndoCount(int undoCount) {
             this.undoCount = undoCount;
         }
@@ -176,4 +219,3 @@ public static String BastShoe(String command) {
         }
     }
 }
-
