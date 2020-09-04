@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.*;
 
 public class Level1  {
-
+//v2
     static Stroka stroka = new Stroka("");
 public static String BastShoe(String command) {
         int com;
