@@ -227,3 +227,4 @@ public static String BastShoe(String command) {
             spisokAll.clear();
         }
     }
+}
