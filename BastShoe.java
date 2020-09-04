@@ -4,7 +4,7 @@ import java.util.*;
 public class Level1  {
 
     static Stroka stroka = new Stroka("");
- public static String BastShoe(String command) {
+public static String BastShoe(String command) {
         int com;
         String value = "";
         String result = "";
@@ -42,6 +42,7 @@ public class Level1  {
         }
         stroka.setPredoperation(1);
         stroka.setSpisokAll(stroka.getValue());
+        stroka.setUndoCount(0);
     }
 
     public static void command2(String value) {
@@ -57,7 +58,7 @@ public class Level1  {
         }
         stroka.setPredoperation(2);
         stroka.setSpisokAll(stroka.getValue());
-
+        stroka.setUndoCount(0);
     }
 
     public static String command3(String value) {
@@ -86,8 +87,14 @@ public class Level1  {
        }
 
        else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
-               && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size() && stroka.getSpisokUndo().size() != stroka.getSpisokRedo().size()){
+               && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size() && stroka.getSpisokUndo().size() >= stroka.getSpisokRedo().size()){
            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - (stroka.getSpisokUndo().size() - 1)));
+           stroka.setSpisokUndo(stroka.getValue());
+       }
+
+       else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+               && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size() && stroka.getSpisokUndo().size() < stroka.getSpisokRedo().size()){
+           stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2 - stroka.getUndoCount()));
            stroka.setSpisokUndo(stroka.getValue());
        }
 
@@ -114,6 +121,7 @@ public class Level1  {
         stroka.setPredoperation(4);
         stroka.setUndoCount(stroka.getUndoCount() + 1);
         stroka.setValueOtkat(stroka.getValue());
+
     }
 
     public static void command5() {
@@ -150,6 +158,7 @@ public class Level1  {
 
         stroka.setRedoCount(stroka.getRedoCount() + 1);
         stroka.setPredoperation(5);
+        stroka.setUndoCount(0);
 
     }
 
@@ -218,4 +227,3 @@ public class Level1  {
             spisokAll.clear();
         }
     }
-}
