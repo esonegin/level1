@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import java.util.*;
 
 public class Level1  {
-//v4
+//v5
     static Stroka stroka = new Stroka("");
-    public static String BastShoe(String command) {
+   public static String BastShoe(String command) {
         int com;
         String value = "";
         String result = "";
@@ -89,8 +89,18 @@ public class Level1  {
         else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
                 && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size()
                 && stroka.getSpisokUndo().size() >= stroka.getSpisokRedo().size()
-        && stroka.getUndoCount() > 0){
-            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - (stroka.getSpisokUndo().size() - 1)));
+                && stroka.getUndoCount() > 0
+        && stroka.getSpisokAll().size() - stroka.getUndoCount() - 2 >= 0){
+            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - stroka.getUndoCount() - 2));
+            stroka.setSpisokUndo(stroka.getValue());
+        }
+
+        else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+                && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size()
+                && stroka.getSpisokUndo().size() >= stroka.getSpisokRedo().size()
+                && stroka.getUndoCount() > 0
+                && stroka.getSpisokAll().size() - stroka.getUndoCount() - 2 < 0){
+            stroka.setValue("");
             stroka.setSpisokUndo(stroka.getValue());
         }
 
@@ -104,6 +114,13 @@ public class Level1  {
 
         else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
                 && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size() && stroka.getSpisokUndo().size() < stroka.getSpisokRedo().size()){
+            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2 - stroka.getUndoCount()));
+            stroka.setSpisokUndo(stroka.getValue());
+        }
+
+        else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+                && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size()
+                && stroka.getSpisokUndo().size() < stroka.getSpisokRedo().size()){
             stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2 - stroka.getUndoCount()));
             stroka.setSpisokUndo(stroka.getValue());
         }
