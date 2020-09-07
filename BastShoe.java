@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import java.util.*;
 
 public class Level1  {
-//v5
+//v6
     static Stroka stroka = new Stroka("");
-   public static String BastShoe(String command) {
+ public static String BastShoe(String command) {
         int com;
         String value = "";
         String result = "";
@@ -63,10 +63,11 @@ public class Level1  {
 
     public static String command3(String value) {
         String result = "";
-        if(Integer.parseInt(value) < stroka.getValue().length()) {
+        if (Integer.parseInt(value) < stroka.getValue().length()) {
             result = (stroka.getValue().substring(Integer.parseInt(value), Integer.parseInt(value) + 1));
+        } else {
+            result = "";
         }
-        else {result = "";}
         stroka.setPredoperation(3);
         return result;
     }
@@ -75,72 +76,61 @@ public class Level1  {
         if (stroka.getSpisokAll().size() == 1) {
             stroka.setValue("");
             stroka.setSpisokUndo(stroka.getValue());
-        }
-        else if (stroka.getSpisokAll().size() > 1 && stroka.getSpisokUndo().size() == 0){
+        } else if (stroka.getSpisokAll().size() > 1 && stroka.getSpisokUndo().size() == 0) {
             stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2));
             stroka.setSpisokUndo(stroka.getValue());
-        }
-        else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
-                && stroka.getSpisokAll().size() > stroka.getSpisokUndo().size()){
+        } else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+                && stroka.getSpisokAll().size() > stroka.getSpisokUndo().size()
+                && stroka.getSpisokAll().size() - 2 - stroka.getSpisokUndo().size() >= 0) {
             stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2 - stroka.getSpisokUndo().size()));
             stroka.setSpisokUndo(stroka.getValue());
-        }
-
-        else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
-                && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size()
-                && stroka.getSpisokUndo().size() >= stroka.getSpisokRedo().size()
-                && stroka.getUndoCount() > 0
-        && stroka.getSpisokAll().size() - stroka.getUndoCount() - 2 >= 0){
-            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - stroka.getUndoCount() - 2));
-            stroka.setSpisokUndo(stroka.getValue());
-        }
-
-        else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
-                && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size()
-                && stroka.getSpisokUndo().size() >= stroka.getSpisokRedo().size()
-                && stroka.getUndoCount() > 0
-                && stroka.getSpisokAll().size() - stroka.getUndoCount() - 2 < 0){
+        } else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+                && stroka.getSpisokAll().size() > stroka.getSpisokUndo().size()
+                && stroka.getSpisokAll().size() - 2 - stroka.getSpisokUndo().size() < 0) {
             stroka.setValue("");
             stroka.setSpisokUndo(stroka.getValue());
-        }
-
-        else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+        } else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
                 && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size()
                 && stroka.getSpisokUndo().size() >= stroka.getSpisokRedo().size()
-                && stroka.getUndoCount() == 0){
-            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2 - stroka.getUndoCount()));
+                && stroka.getUndoCount() > 0
+                && stroka.getSpisokAll().size() - stroka.getUndoCount() - 2 >= 0) {
+            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - stroka.getUndoCount() - 2));
             stroka.setSpisokUndo(stroka.getValue());
-        }
-
-        else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
-                && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size() && stroka.getSpisokUndo().size() < stroka.getSpisokRedo().size()){
-            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2 - stroka.getUndoCount()));
-            stroka.setSpisokUndo(stroka.getValue());
-        }
-
-        else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+        } else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
                 && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size()
-                && stroka.getSpisokUndo().size() < stroka.getSpisokRedo().size()){
+                && stroka.getSpisokUndo().size() >= stroka.getSpisokRedo().size()
+                && stroka.getUndoCount() > 0
+                && stroka.getSpisokAll().size() - stroka.getUndoCount() - 2 < 0) {
+            stroka.setValue("");
+            stroka.setSpisokUndo(stroka.getValue());
+        } else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+                && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size()
+                && stroka.getSpisokUndo().size() >= stroka.getSpisokRedo().size()
+                && stroka.getUndoCount() == 0) {
             stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2 - stroka.getUndoCount()));
             stroka.setSpisokUndo(stroka.getValue());
-        }
-
-        else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
-                && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size() && stroka.getSpisokUndo().size() == stroka.getSpisokRedo().size()){
+        } else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+                && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size() && stroka.getSpisokUndo().size() < stroka.getSpisokRedo().size()) {
+            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2 - stroka.getUndoCount()));
+            stroka.setSpisokUndo(stroka.getValue());
+        } else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+                && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size()
+                && stroka.getSpisokUndo().size() < stroka.getSpisokRedo().size()) {
+            stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2 - stroka.getUndoCount()));
+            stroka.setSpisokUndo(stroka.getValue());
+        } else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() != 5
+                && stroka.getSpisokAll().size() <= stroka.getSpisokUndo().size() && stroka.getSpisokUndo().size() == stroka.getSpisokRedo().size()) {
             stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 2));
             stroka.setSpisokUndo(stroka.getValue());
-        }
-        else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() == 5
-                && stroka.getSpisokAll().size() > stroka.getSpisokRedo().size()){
+        } else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() == 5
+                && stroka.getSpisokAll().size() > stroka.getSpisokRedo().size()) {
             stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size()));
             stroka.setSpisokUndo(stroka.getValue());
-        }
-        else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() == 5
-                && stroka.getSpisokAll().size() <= stroka.getSpisokRedo().size()){
+        } else if (stroka.getSpisokAll().size() > 2 && stroka.getSpisokUndo().size() > 0 && stroka.getPredoperation() == 5
+                && stroka.getSpisokAll().size() <= stroka.getSpisokRedo().size()) {
             stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - stroka.getSpisokAll().size()));
             stroka.setSpisokUndo(stroka.getValue());
-        }
-        else if (stroka.getSpisokAll().size() == 2 && stroka.getSpisokUndo().size() > 0){
+        } else if (stroka.getSpisokAll().size() == 2 && stroka.getSpisokUndo().size() > 0) {
             stroka.setValue(stroka.getSpisokAll().get(0));
             stroka.setSpisokUndo(stroka.getValue());
         }
@@ -153,32 +143,27 @@ public class Level1  {
 
     public static void command5() {
         stroka.getSpisokAll();
-        if(stroka.getSpisokRedo().size() == 0) {
+        if (stroka.getSpisokRedo().size() == 0) {
             stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - 2));
             stroka.setSpisokRedo(stroka.getValue());
-        }
-        else if(stroka.getSpisokRedo().size() != 0 && stroka.getPredoperation() != 5
-                && stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() != 1){
+        } else if (stroka.getSpisokRedo().size() != 0 && stroka.getPredoperation() != 5
+                && stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() != 1) {
             stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - 2 - stroka.getSpisokRedo().size()));
             stroka.setSpisokRedo(stroka.getValue());
-        }
-        else if(stroka.getSpisokRedo().size() != 0 && stroka.getPredoperation() == 5
+        } else if (stroka.getSpisokRedo().size() != 0 && stroka.getPredoperation() == 5
                 && stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() != 1
-                && stroka.getSpisokUndo().size() > stroka.getSpisokRedo().size()){
+                && stroka.getSpisokUndo().size() > stroka.getSpisokRedo().size()) {
             stroka.setValue(stroka.getSpisokUndo().get(stroka.getSpisokUndo().size() - 1 - stroka.getSpisokRedo().size()));
             stroka.setSpisokRedo(stroka.getValue());
-        }
-        else if(stroka.getSpisokRedo().size() != 0 && stroka.getPredoperation() == 5
+        } else if (stroka.getSpisokRedo().size() != 0 && stroka.getPredoperation() == 5
                 && stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() != 1
-                && stroka.getSpisokUndo().size() <= stroka.getSpisokRedo().size()){
+                && stroka.getSpisokUndo().size() <= stroka.getSpisokRedo().size()) {
             stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 1));
             stroka.setSpisokRedo(stroka.getValue());
-        }
-        else if(stroka.getSpisokRedo().size() != 0 && stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() <= 1){
+        } else if (stroka.getSpisokRedo().size() != 0 && stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() <= 1) {
             stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 1));
             stroka.setSpisokRedo(stroka.getValue());
-        }
-        else if(stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() == 1){
+        } else if (stroka.getSpisokUndo().size() - stroka.getSpisokRedo().size() == 1) {
             stroka.setValue(stroka.getSpisokAll().get(stroka.getSpisokAll().size() - 1));
             stroka.setSpisokRedo(stroka.getValue());
         }
@@ -202,54 +187,71 @@ public class Level1  {
         public Stroka(String value) {
             this.value = value;
         }
+
         public String getValue() {
             return value;
         }
+
         public int getPredoperation() {
             return predoperation;
         }
+
         public ArrayList<String> getSpisokAll() {
             return spisokAll;
         }
+
         public ArrayList<String> getSpisokUndo() {
             return spisokUndo;
         }
+
         public ArrayList<String> getSpisokRedo() {
             return spisokRedo;
         }
+
         public int getUndoCount() {
             return undoCount;
         }
+
         public int getRedoCount() {
             return redoCount;
         }
+
         public String getValueOtkat() {
             return valueOtkat;
         }
+
         public void setValue(String value) {
             this.value = value;
         }
+
         public void setPredoperation(int predoperation) {
             this.predoperation = predoperation;
         }
+
         public void setSpisokAll(String stroka) {
             spisokAll.add(stroka);
         }
+
         public void setSpisokUndo(String stroka) {
             spisokUndo.add(stroka);
         }
+
         public void setSpisokRedo(String stroka) {
             spisokRedo.add(stroka);
         }
+
         public void setUndoCount(int undoCount) {
             this.undoCount = undoCount;
         }
+
         public void setRedoCount(int redoCount) {
             this.redoCount = redoCount;
         }
+
         public void setValueOtkat(String valueOtkat) {
             this.valueOtkat = valueOtkat;
         }
+
         public void replaceSpisokAll() {
             spisokAll.clear();
         }
